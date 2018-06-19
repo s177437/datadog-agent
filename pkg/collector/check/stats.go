@@ -13,6 +13,7 @@ import (
 // Stats holds basic runtime statistics about check instances
 type Stats struct {
 	CheckName            string
+	CheckVersion         string
 	CheckID              ID
 	TotalRuns            uint64
 	TotalErrors          uint64
@@ -34,10 +35,15 @@ type Stats struct {
 
 // NewStats returns a new check stats instance
 func NewStats(c Check) *Stats {
-	return &Stats{
+	s := &Stats{
 		CheckID:   c.ID(),
 		CheckName: c.String(),
 	}
+	if pyCheck, ok := c.(PythonCheck); ok {
+		s.CheckVersion = pyCheck.Version()
+	}
+
+	return s
 }
 
 // Add tracks a new execution time

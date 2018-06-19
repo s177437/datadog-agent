@@ -27,3 +27,9 @@ type Check interface {
 	GetWarnings() []error                                // return the last warning registered by the check
 	GetMetricStats() (map[string]int64, error)           // get metric stats from the sender
 }
+
+// PythonCheck extends the Check interface with specific method for the python checks
+type PythonCheck interface {
+	Check
+	Version() string // return the version of the check if available
+}
